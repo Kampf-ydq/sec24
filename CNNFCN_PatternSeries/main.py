@@ -70,27 +70,6 @@ def main(config):
                          limit_size=config['limit_size'], config=config)
     feat_dim = my_data.feature_df.shape[1]  # dimensionality of data features
 
-    """
-    Draw the time series. ydq 20231002 ditecting.
-    """
-    """
-    dim0 = my_data.feature_df.iloc[:152, 0]
-    win = 152
-    plt.subplot(3, 1, 1)
-    plt.plot(range(152), my_data.feature_df.iloc[:152, 0].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[:152, 1].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[:152, 2].values.tolist())
-    plt.subplot(3, 1, 2)
-    plt.plot(range(152), my_data.feature_df.iloc[152:304, 0].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[152:304, 1].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[152:304, 2].values.tolist())
-    plt.subplot(3, 1, 3)
-    plt.plot(range(152), my_data.feature_df.iloc[2*win:3*win, 0].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[2*win:3*win, 1].values.tolist())
-    plt.plot(range(152), my_data.feature_df.iloc[2*win:3*win, 2].values.tolist())
-    plt.show()
-    """
-
     if config['task'] == 'classification':
         validation_method = 'StratifiedShuffleSplit'
         labels = my_data.labels_df.values.flatten()
@@ -268,33 +247,6 @@ def main(config):
             print_str += '{}: {:8f} | '.format(k, v)
         logger.info(print_str)
 
-        """
-        # [Open Set Identify]
-        # fits per class weibull models on the distances in the training set
-        weibull_model = trainer.make_weibull_from_trainsets()
-        so, ss, y_true = test_evaluator.openmax(weibull_model)
-        # # Fusion of threshold judgment methods for classification
-        # pred_openmax = []
-        # thr = 0.9
-        # # Failure to meet the conditions is considered to be category 0
-        # pred_openmax.append(np.argmax(so) if np.max(so) >= thr else 0)
-        # pred_openmax = np.array(pred_openmax)
-
-
-        pred_openmax = np.argmax(so, axis=1)
-        pred_softmax = np.argmax(ss, axis=1)
-        class_names = np.arange(so.shape[1])
-        metrics_dict_opx = test_evaluator.analysis_identify(pred_openmax, y_true, class_names)
-        metrics_dict_sfx = test_evaluator.analysis_identify(pred_softmax, y_true, class_names)
-        logger.info('OpenMax: Avg Precision {}, Avg Recall {} // Precision {} | Recall {} | F1/4 {}'.format(metrics_dict_opx['prec_avg'], metrics_dict_opx['rec_avg'],
-                                                                                                             metrics_dict_opx['precision'],
-                                                                                                             metrics_dict_opx['recall'],
-                                                                                                             metrics_dict_opx['f1/4']))
-        logger.info('SoftMax: Avg Precision {}, Avg Recall {} // Precision {} | Recall {} | F1/4 {}'.format(metrics_dict_sfx['prec_avg'], metrics_dict_sfx['rec_avg'],
-                                                                                                                metrics_dict_sfx['precision'],
-                                                                                                                     metrics_dict_sfx['recall'],
-                                                                                                                     metrics_dict_sfx['f1/4']))
-        """
         return
 
     # Evaluate on validation before training
@@ -338,24 +290,6 @@ def main(config):
                                                                  best_metrics, best_value, epoch)
         metrics_names, metrics_values = zip(*aggr_metrics_val.items())
         val_metrics.append(list(metrics_values))
-        # evaluate if first or last epoch or at specified interval
-        """
-        if (epoch == config["epochs"]) or (epoch == start_epoch + 1) or (epoch % config['val_interval'] == 0):
-            aggr_metrics_val, best_metrics, best_value, _ = validate(val_evaluator, tensorboard_writer, config,
-                                                                     best_metrics, best_value, epoch)
-            metrics_names, metrics_values = zip(*aggr_metrics_val.items())
-            val_metrics.append(list(metrics_values))
-
-            # Data distribution analysis. ydq 20231014.
-            if epoch == 96:
-                # get last epoch's Softmax outputs for PDF and CDF analysis.
-                _, _, _, per_batch = validate(val_evaluator, tensorboard_writer, config,
-                                              best_metrics, best_value, epoch)
-                predictions = torch.from_numpy(np.concatenate(per_batch['predictions'], axis=0))
-                logger.info('Analysis PDF and CDF about SOFTMAX layer outputs.')
-                from math_analysis import pdf_and_cdf
-                # pdf_and_cdf.plot_prob_function(predictions)
-        """
 
         utils.save_model(os.path.join(config['save_dir'], 'model_{}.pth'.format(mark)), epoch, model, optimizer)
 

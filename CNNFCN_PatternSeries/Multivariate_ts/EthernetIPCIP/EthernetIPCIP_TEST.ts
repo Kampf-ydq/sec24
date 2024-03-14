@@ -1,7 +1,7 @@
 ### Introduction
 # Converting EthernetIP/CIP packets to field sequence data for field type identification.
 # Contains four types of fields: Sequence number, Function code, Length, Magic number, Timestamp.
-# ydq. (2023.12.14)
+# (2023.12.14)
 #
 ### Attention
 # Make sure (the number of samples) % (batch size) > 1, otherwise, an error

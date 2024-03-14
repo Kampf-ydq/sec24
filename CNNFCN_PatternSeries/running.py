@@ -213,7 +213,7 @@ def validate(val_evaluator, tensorboard_writer, config, best_metrics, best_value
 
         """
         Solve ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape
-        ydq 20231002
+        20231002
         """
         for key, val in per_batch.items():
             per_batch[key] = np.asarray(val, dtype=object)
@@ -495,7 +495,7 @@ class SupervisedRunner(BaseRunner):
             predictions, recon, _ = self.model(X.to(self.device), padding_masks)
 
             """
-            Loss value is not calculated at the time of validation. ydq 20231015
+            Loss value is not calculated at the time of validation. 20231015
             """
             loss = self.loss_module(predictions, targets)  # (batch_size,) loss for each sample in the batch
             batch_loss = torch.sum(loss).cpu().item()

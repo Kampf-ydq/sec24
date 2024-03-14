@@ -1,7 +1,7 @@
 ### Introduction
-# A .ts file generated from network traffics by myself for field type identification.
+# A .ts file generated from network traffics for field type identification.
 # Contains seven types of fields: Sequence number, Function code, Length, Magic number, Address, Checksum, Timestamp.
-# Daoqing Yang. (2023.12.07)
+# (2023.12.07)
 #
 ### Attention
 # Make sure (the number of samples) % (batch size) > 1, otherwise, an error
@@ -9,7 +9,7 @@
 #
 ### Information
 #- samples: 360
-#- types: 7
+#- types: 4
 ###
 @problemName Multiprotocol
 @timeStamps false

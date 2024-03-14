@@ -349,7 +349,7 @@ def compute_loss(net: torch.nn.Module,
 
 def inverse_transformed_samples(confscore, p):
     """CDF(Sc, theta) = 1-p, need to know theta. Let p be the classification
-    accuracy of the classifier. 2023/12/10  ydq.
+    accuracy of the classifier. 2023/12/10.
 
     Parameters
     ----------

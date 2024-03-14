@@ -1,7 +1,7 @@
 ### Introduction
 # Converting DNP3.0 packets to field sequence data for field type identification.
 # Contains four types of fields: Sequence number, Function code, Length, Magic number, Address, Checksum.
-# ydq. (2023.10.03)
+# (2023.10.03)
 #
 ### Attention
 # Make sure (the number of samples) % (batch size) > 1, otherwise, an error

@@ -50,7 +50,6 @@ class ClassAndReconstLoss(nn.Module):
         batch_loss = torch.sum(crsloss)
         cls_loss = batch_loss / len(crsloss)
         reconst_loss = self.mse_loss(recon, x)
-        # r =
         loss = cls_loss + reconst_loss
 
         return loss, crsloss, batch_loss
